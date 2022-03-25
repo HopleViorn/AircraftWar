@@ -4,6 +4,7 @@ import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.creator.EliteFactory;
+import edu.hitsz.creator.MobEnemyFactory;
 import edu.hitsz.prop.*;
 
 import javax.swing.*;
@@ -51,6 +52,7 @@ public class Game extends JPanel {
     private int cycleTime = 0;
 
     private EliteFactory eliteFactory = new EliteFactory();
+    private MobEnemyFactory mobEnemyFactory = new MobEnemyFactory();
 
     public Game() {
         heroAircraft = HeroAircraft.getInstance(
@@ -86,12 +88,11 @@ public class Game extends JPanel {
                 System.out.println(time);
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    boolean add = enemyAircrafts.add(new MobEnemy(
+                    boolean add = enemyAircrafts.add(mobEnemyFactory.create(
                             (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
                             (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,
                             0,
-                            10,
-                            30
+                            10
                     ));
                 }
                 if(Math.random()<0.6) {//精英地基
