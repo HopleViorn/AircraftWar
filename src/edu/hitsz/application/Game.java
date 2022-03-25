@@ -3,8 +3,7 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.creator.EliteFactory;
-import edu.hitsz.creator.MobEnemyFactory;
+import edu.hitsz.creator.*;
 import edu.hitsz.prop.*;
 
 import javax.swing.*;
@@ -53,6 +52,9 @@ public class Game extends JPanel {
 
     private EliteFactory eliteFactory = new EliteFactory();
     private MobEnemyFactory mobEnemyFactory = new MobEnemyFactory();
+    private BulletPropFactory bulletPropFactory = new BulletPropFactory();
+    private BloodPropFactory bloodPropFactory = new BloodPropFactory();
+    private BombPropFactory bombPropFactory = new BombPropFactory();
 
     public Game() {
         heroAircraft = HeroAircraft.getInstance(
@@ -230,11 +232,11 @@ public class Game extends JPanel {
                         if(enemyAircraft instanceof Elite) {
                             double pnt=Math.random();
                             if(pnt <0.3) {
-                                props.add(new BloodProp(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, enemyAircraft.getSpeedY()/4));
+                                props.add(bloodPropFactory.create(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, enemyAircraft.getSpeedY()/4));
                             }else if(pnt<0.6) {
-                                props.add(new BombProp(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, enemyAircraft.getSpeedY()/4));
+                                props.add(bombPropFactory.create(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, enemyAircraft.getSpeedY()/4));
                             }else if(pnt<0.9){
-                                props.add(new BulletProp(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, enemyAircraft.getSpeedY()/4));
+                                props.add(bulletPropFactory.create(enemyAircraft.getLocationX(), enemyAircraft.getLocationY(), 0, enemyAircraft.getSpeedY()/4));
                             }
 
                         }
