@@ -104,4 +104,8 @@ class BulletProp{
      +BulletProp(int locationX,int locationY,int speedX,int speedY)
  }
 
+class BloodPropFactory{
+     BloodPropFactory(int locationX,int locationY,int speedX,int speedY)
+}
+
 @enduml
