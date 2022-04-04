@@ -7,6 +7,7 @@ public class AbstractProp extends AbstractFlyingObject {
     public AbstractProp(int locationX,int locationY,int speedX,int speedY) {
         super(locationX,locationY,speedX,speedY);
     }
+    @Override
     public void forward(double timeInterval) {
         super.forward(timeInterval);
 

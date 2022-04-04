@@ -204,7 +204,7 @@ public class Game extends JPanel {
     private void crashCheckAction() {
         //  敌机子弹攻击英雄
         for(BaseBullet bullet : enemyBullets) {
-            if(bullet.notValid()) continue;
+            if(bullet.notValid()) {continue;}
             if(heroAircraft.crash(bullet)) {
                 heroAircraft.decreaseHp(bullet.getPower());
                 bullet.vanish();
@@ -255,7 +255,7 @@ public class Game extends JPanel {
 
         // 我方获得道具，道具生效
         for(AbstractProp prs : props){
-            if(prs.notValid()) continue;
+            if(prs.notValid()) {continue;}
             if(prs.crash(heroAircraft)) {
                 if(prs instanceof BloodProp){
                     heroAircraft.decreaseHp(-40);
