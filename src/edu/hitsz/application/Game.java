@@ -30,8 +30,10 @@ public class Game extends JPanel {
     /**
      * 时间间隔(ms)，控制刷新频率
      */
-    private int timeInterval = 8;
-
+    private static int timeInterval = 8;
+    public static int getTimeInterval(){
+        return timeInterval;
+    }
     private final HeroAircraft heroAircraft;
     private final List<AbstractAircraft> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
