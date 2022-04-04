@@ -57,10 +57,14 @@ class HeroAircraft {
     - int shootNum
     - int power
     - int direction
+    -HeroAircraft heroAircraft
     + HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
     + shoot():List<Bullet>
+    + getInstance():HeroAircraft
 }
+
+HeroAircraft --> HeroAircraft
 
 class MobEnemy {
     + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
@@ -107,5 +111,38 @@ class BulletProp{
 class BloodPropFactory{
      BloodPropFactory(int locationX,int locationY,int speedX,int speedY)
 }
+class BombPropFactory{
+     BombPropFactory(int locationX,int locationY,int speedX,int speedY)
+}
+class BulletPropFactory{
+     BulletPropFactory(int locationX,int locationY,int speedX,int speedY)
+}
+
+class BossFactory{
+     BossFactory(int locationX,int locationY,int speedX,int speedY)
+}
+class MobEnemyFactory{
+     MobEnemyFactory(int locationX,int locationY,int speedX,int speedY)
+}
+class EliteFactory{
+     ElitePropFactory(int locationX,int locationY,int speedX,int speedY)
+}
+interface AbstractAircraftFactory{
+    AbstractAircraft create(int locationX,int locationY,int speedX,int speedY)
+}
+
+AbstractAircraftFactory ..> AbstractAircraft
+BossFactory --> AbstractAircraftFactory
+MobEnemyFactory --> AbstractAircraftFactory
+EliteFactory --> AbstractAircraftFactory
+
+interface AbstractPropFactory{
+    AbstractProp create(int locationX,int locationY,int speedX,int speedY)
+}
+
+AbstractPropFactory ..> AbstractProp
+BombPropFactory --> AbstractPropFactory
+BloodPropFactory --> AbstractPropFactory
+BulletPropFactory --> AbstractPropFactory
 
 @enduml
