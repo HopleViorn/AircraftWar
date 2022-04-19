@@ -30,8 +30,10 @@ public class Game extends JPanel {
     /**
      * 时间间隔(ms)，控制刷新频率
      */
-    private int timeInterval = 8;
-
+    private static int timeInterval = 8;
+    public static int getTimeInterval(){
+        return timeInterval;
+    }
     private final HeroAircraft heroAircraft;
     private final List<AbstractAircraft> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
@@ -222,7 +224,7 @@ public class Game extends JPanel {
     private void crashCheckAction() {
         //  敌机子弹攻击英雄
         for(BaseBullet bullet : enemyBullets) {
-            if(bullet.notValid()) continue;
+            if(bullet.notValid()) {continue;}
             if(heroAircraft.crash(bullet)) {
                 heroAircraft.decreaseHp(bullet.getPower());
                 bullet.vanish();
@@ -273,7 +275,7 @@ public class Game extends JPanel {
 
         // 我方获得道具，道具生效
         for(AbstractProp prs : props){
-            if(prs.notValid()) continue;
+            if(prs.notValid()) {continue;}
             if(prs.crash(heroAircraft)) {
                 if(prs instanceof BloodProp){
                     heroAircraft.decreaseHp(-40);
