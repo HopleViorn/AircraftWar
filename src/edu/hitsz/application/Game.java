@@ -39,7 +39,6 @@ public class Game extends JPanel {
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
     private final List<AbstractProp> props;
-    private Boss boss = null;
 
     private int enemyMaxNumber = 5;
 
@@ -58,7 +57,6 @@ public class Game extends JPanel {
     private BulletPropFactory bulletPropFactory = new BulletPropFactory();
     private BloodPropFactory bloodPropFactory = new BloodPropFactory();
     private BombPropFactory bombPropFactory = new BombPropFactory();
-    private BossFactory bossFactory = new BossFactory();
 
     public Game() {
         heroAircraft = HeroAircraft.getInstance(
@@ -89,8 +87,6 @@ public class Game extends JPanel {
 
             time += timeInterval;
 
-
-
             // 周期性执行（控制频率）
             if (timeCountAndNewCycleJudge()) {
                 System.out.println(time);
@@ -115,8 +111,6 @@ public class Game extends JPanel {
                 // 飞机射出子弹
                 shootAction();
             }
-
-            bossSpawn();
 
             // 子弹移动
             bulletsMoveAction();
@@ -170,19 +164,6 @@ public class Game extends JPanel {
         }
     }
 
-    int lastCheckPoint = 0;
-    private void bossSpawn(){
-        if(boss==null || boss.notValid()){
-            if(score -lastCheckPoint >= 10){
-                System.out.print(lastCheckPoint);
-                System.out.print("Shit");
-                boss = (Boss) bossFactory.create((int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1, (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,10,10);
-                lastCheckPoint=score;
-            }
-
-        }
-    }
-
      private void shootAction() {
         //  敌机射击
         for(AbstractAircraft elite : enemyAircrafts ) {
@@ -211,7 +192,6 @@ public class Game extends JPanel {
         for (AbstractAircraft enemyAircraft : enemyAircrafts) {
             enemyAircraft.forward(timeInterval);
         }
-        boss.forward(timeInterval);
     }
 
 
