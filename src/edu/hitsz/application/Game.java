@@ -20,7 +20,7 @@ import java.util.concurrent.*;
  */
 public class Game extends JPanel {
 
-    private double backGroundTop =  0;
+    private double backGroundTop = 0;
 
     /**
      * Scheduled 线程池，用于任务调度
@@ -31,14 +31,17 @@ public class Game extends JPanel {
      * 时间间隔(ms)，控制刷新频率
      */
     private static int timeInterval = 8;
-    public static int getTimeInterval(){
+
+    public static int getTimeInterval() {
         return timeInterval;
     }
+
     private final HeroAircraft heroAircraft;
     private final List<AbstractAircraft> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
     private final List<AbstractProp> props;
+    private Boss boss;
 
     private int enemyMaxNumber = 5;
 
@@ -57,11 +60,12 @@ public class Game extends JPanel {
     private BulletPropFactory bulletPropFactory = new BulletPropFactory();
     private BloodPropFactory bloodPropFactory = new BloodPropFactory();
     private BombPropFactory bombPropFactory = new BombPropFactory();
+    private BossFactory bossFactory = new BossFactory();
 
     public Game() {
         heroAircraft = HeroAircraft.getInstance(
                 Main.WINDOW_WIDTH / 2,
-                Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight() ,
+                Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight(),
                 0, 0, 100);
 
         enemyAircrafts = new LinkedList<>();
@@ -99,18 +103,20 @@ public class Game extends JPanel {
                             10
                     ));
                 }
-                if(Math.random()<0.6) {//精英地基
+                if (Math.random() < 0.6) {//精英地基
                     enemyAircrafts.add(eliteFactory.create(
-                        (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
-                        (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,
-                        0,
-                        15
+                            (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
+                            (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,
+                            0,
+                            15
                     ));
 
                 }
                 // 飞机射出子弹
                 shootAction();
             }
+
+            bossSpawn();
 
             // 子弹移动
             bulletsMoveAction();
@@ -147,8 +153,6 @@ public class Game extends JPanel {
 
     }
 
-
-
     //***********************
     //      Action 各部分
     //***********************
@@ -164,11 +168,31 @@ public class Game extends JPanel {
         }
     }
 
+    private int lastscore = 0;
+    private void bossSpawn(){
+        for(AbstractAircraft enemy : enemyAircrafts) {
+            if(enemy instanceof Boss){
+                return ;
+            }
+        }
+
+        if(score-lastscore>=100){
+            enemyAircrafts.add(
+                    (Boss) bossFactory.create(
+                    (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
+                    (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,5,2)
+            );
+            lastscore = score;
+        }
+    }
+
+
      private void shootAction() {
         //  敌机射击
         for(AbstractAircraft elite : enemyAircrafts ) {
             enemyBullets.addAll(elite.shoot());
         }
+
         // 英雄射击
         heroBullets.addAll(heroAircraft.shoot());
     }

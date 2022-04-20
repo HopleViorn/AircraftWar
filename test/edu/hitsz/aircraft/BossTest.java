@@ -28,6 +28,7 @@ class BossTest {
     }
     @Test
     void getHp() {
+        System.out.print("getHp Test\n");
         assertEquals(60,boss.getHp());
     }
 

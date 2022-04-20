@@ -12,6 +12,7 @@ public class Boss extends AbstractAircraft{
     private int direction = 1;
     private int shootNum = 1;
     private int power = 30;
+
     public Boss(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
     }
