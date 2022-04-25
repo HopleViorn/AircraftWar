@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Strategy{
+    +shoot(int baseX, int baseY, int baseSpeedX, int baseSpeedY):List<BaseBullet>
+}
+Single ..|> Strategy
+class Single{
+    -direction:int
+    -shootNum:int
+    -power:int
+    -bulletType:BulletType
+    +Single(BulletType bulletType,int direction,int shootNum,int power);
+    +shoot(int baseX,int baseY,int baseSpeedX,int baseSpeedY):List<BaseBullet>
+}
+Scattered ..|> Strategy
+class Scattered{
+    -direction:int
+    -shootNum:int
+    -power:int
+    -bulletType:BulletType
+    +Scattered(BulletType bulletType,int direction,int shootNum,int power);
+    +shoot(int baseX,int baseY,int baseSpeedX,int baseSpeedY):List<BaseBullet>
+}
+
+FireStrategy o-->Strategy
+class FireStrategy{
+    -strategy:Strategy
+    +setStrategy(Strategy strategy):void
+    +executeStrategy(int baseX, int baseY, int baseSpeedX, int baseSpeedY):List<BaseBullet>
+
+}
+
+HeroAircraft..>Single
+HeroAircraft..>Scattered
+Elite..>Single
+Boss..>Scattered
+
+
+@enduml

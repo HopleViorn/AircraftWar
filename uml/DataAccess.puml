@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface UserDao{
+    +getAllUsers():List<User>
+    +User findUser(int userID):void
+    +addUser(User user):void
+    +deleteUser(int userID):void
+}
+
+UserDaoImpl ..|>UserDao
+class UserDaoImpl{
+    -userList:List<User>
+     +UserDaoImpl()
+     +getAllUsers()
+}
+UserDaoImpl-->User
+class User{
+    -userID:int
+    -score:int
+    -date:Date
+    +User(int userID,int score,Date date)
+    +findUser(int userID):void
+    +addUser(User user):void
+    +deleteUser(int userID):void
+}
+
+Game ..> UserDao
+
+@enduml
