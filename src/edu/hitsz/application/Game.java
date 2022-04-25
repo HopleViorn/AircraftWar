@@ -16,9 +16,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
+
 
 /**
  * 游戏主面板，游戏启动
@@ -156,8 +158,9 @@ public class Game extends JPanel {
                 executorService.shutdown();
                 gameOverFlag = true;
 
+                Date date = new Date(System.currentTimeMillis());
                 try {
-                    userDao.addUser(new User((int) (Math.random() * 10000), score));
+                    userDao.addUser(new User((int) (Math.random() * 10000), score,date));
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -165,8 +168,16 @@ public class Game extends JPanel {
                 System.out.println("Game Over!");
 
                 System.out.println("RankList");
+                System.out.println("******************************************************");
+                System.out.println("                      Score Board");
+                System.out.println("******************************************************");
+
+
+                SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+                int rank = 0;
                 for(User user:userDao.getAllUsers()){
-                    System.out.print("userID:"+user.userID+",score:"+user.score+"\n");
+
+                    System.out.println("Rank "+(++rank)+":userID:"+user.userID+",score:"+user.score+","+formatter.format(date));
                 }
 
                 try{

@@ -28,13 +28,12 @@ public class Scattered implements Strategy{
         int y = baseY + direction*2;
         int speedX = baseSpeedX;
         int speedY = baseSpeedY + direction*20;
+
         BaseBullet baseBullet;
-        for(int i=0; i<shootNum; i++){
-            // 子弹发射位置相对飞机位置向前偏移
+        for(int i=0; i<shootNum; i++){            // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
             if(bulletType==BulletType.HERO) {
                 baseBullet = new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX+(i-shootNum/2)*4, speedY, power);
-                System.out.print(speedX+(i-shootNum/2)*4);
                 System.out.print('\n');
             }
             else if(bulletType==BulletType.ENEMY) {
