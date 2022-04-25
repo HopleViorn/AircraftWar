@@ -33,8 +33,11 @@ class FireStrategy{
 
 HeroAircraft..>Single
 HeroAircraft..>Scattered
+HeroAircraft-->FireStrategy
 Elite..>Single
+Elite-->FireStrategy
 Boss..>Scattered
+Boss-->FireStrategy
 
 
 @enduml
