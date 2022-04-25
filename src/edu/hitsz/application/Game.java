@@ -5,10 +5,17 @@ import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.creator.*;
 import edu.hitsz.prop.*;
+import edu.hitsz.user.User;
+import edu.hitsz.user.UserDao;
+import edu.hitsz.user.UserDaoImpl;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
@@ -20,6 +27,7 @@ import java.util.concurrent.*;
  */
 public class Game extends JPanel {
 
+    private UserDao userDao = new UserDaoImpl();
     private double backGroundTop = 0;
 
     /**
@@ -87,6 +95,12 @@ public class Game extends JPanel {
      */
     public void action() {
 
+        try(ObjectInputStream ois=new ObjectInputStream(new FileInputStream("save.data"))){
+            userDao=(UserDaoImpl) ois.readObject();
+        }catch(Exception err) {
+            err.printStackTrace();
+        }
+        if(userDao==null) userDao=new UserDaoImpl();
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
 
@@ -141,7 +155,27 @@ public class Game extends JPanel {
                 // 游戏结束
                 executorService.shutdown();
                 gameOverFlag = true;
+
+                try {
+                    userDao.addUser(new User((int) (Math.random() * 10000), score));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                userDao.getAllUsers().sort((a,b)->(a.score<=b.score?(a.score<b.score?1:0):-1));
                 System.out.println("Game Over!");
+
+                System.out.println("RankList");
+                for(User user:userDao.getAllUsers()){
+                    System.out.print("userID:"+user.userID+",score:"+user.score+"\n");
+                }
+
+                try{
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("save.data"));
+                    oos.writeObject(userDao);
+                } catch (Exception e) {
+                    System.out.println("Save Failed!");
+                    e.printStackTrace();
+                }
             }
 
         };

@@ -2,6 +2,8 @@ package edu.hitsz.application;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
 /**
  * 程序入口
@@ -30,5 +32,6 @@ public class Main {
         frame.add(game);
         frame.setVisible(true);
         game.action();
+
     }
 }
