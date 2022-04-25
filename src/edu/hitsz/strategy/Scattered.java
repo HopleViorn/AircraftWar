@@ -33,11 +33,11 @@ public class Scattered implements Strategy{
         for(int i=0; i<shootNum; i++){            // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
             if(bulletType==BulletType.HERO) {
-                baseBullet = new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX+(i-shootNum/2)*4, speedY, power);
-                System.out.print('\n');
+                baseBullet = new HeroBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX+(i-shootNum/2)*10, speedY, power);
+                System.out.println(baseBullet.getSpeedX());
             }
             else if(bulletType==BulletType.ENEMY) {
-                baseBullet = new EnemyBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX+(i-shootNum/2)*4, speedY, power);
+                baseBullet = new EnemyBullet(x + (i * 2 - shootNum + 1) * 10, y, speedX+(i-shootNum/2)*10, speedY, power);
             }else baseBullet=null;
 
             res.add(baseBullet);
