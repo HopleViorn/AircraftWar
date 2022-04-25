@@ -44,6 +44,7 @@ public class Game extends JPanel {
     private Boss boss;
 
     private int enemyMaxNumber = 5;
+    private int bossScoreThreshold=100;
 
     private boolean gameOverFlag = false;
     private int score = 0;
@@ -103,11 +104,11 @@ public class Game extends JPanel {
                             10
                     ));
                 }
-                if (Math.random() < 0.6) {//精英地基
+                if (Math.random() < 0.6) {//精英敌机
                     enemyAircrafts.add(eliteFactory.create(
                             (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
                             (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,
-                            0,
+                            10,
                             15
                     ));
 
@@ -176,7 +177,7 @@ public class Game extends JPanel {
             }
         }
 
-        if(score-lastscore>=100){
+        if(score-lastscore>=bossScoreThreshold){
             enemyAircrafts.add(
                     (Boss) bossFactory.create(
                     (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,

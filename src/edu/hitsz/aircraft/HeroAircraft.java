@@ -1,10 +1,13 @@
 package edu.hitsz.aircraft;
 
-import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.bullet.HeroBullet;
+import edu.hitsz.bullet.*;
+import edu.hitsz.strategy.FireStrategy;
+import edu.hitsz.strategy.Scattered;
+import edu.hitsz.strategy.Single;
 
-import java.util.LinkedList;
 import java.util.List;
+
+import static edu.hitsz.bullet.BulletType.*;
 
 /**
  * 英雄飞机，游戏玩家操控
@@ -13,9 +16,7 @@ import java.util.List;
 public class HeroAircraft extends AbstractAircraft {
 
     /** 攻击方式 */
-    private int shootNum = 1;     //子弹一次发射数量
-    private int power = 30;       //子弹伤害
-    private int direction = -1;  //子弹射击方向 (向上发射：1，向下发射：-1)
+    FireStrategy fireStrategy=new FireStrategy(new Single(HERO,-1,2,30));
 
     /**
      * @param locationX 英雄机位置x坐标
@@ -40,9 +41,8 @@ public class HeroAircraft extends AbstractAircraft {
         return instance;
     }
 
-
     public void fireSupply() {
-        shootNum++;
+        fireStrategy.setStrategy(new Scattered(HERO,-1,6,30));
     }
 
     @Override
@@ -56,19 +56,7 @@ public class HeroAircraft extends AbstractAircraft {
      * @return 射击出的子弹List
      */
     public List<BaseBullet> shoot() {
-        List<BaseBullet> res = new LinkedList<>();
-        int x = this.getLocationX();
-        int y = this.getLocationY() + direction*2;
-        int speedX = 0;
-        int speedY = this.getSpeedY() + direction*20;
-        BaseBullet baseBullet;
-        for(int i=0; i<shootNum; i++){
-            // 子弹发射位置相对飞机位置向前偏移
-            // 多个子弹横向分散
-            baseBullet = new HeroBullet(x + (i*2 - shootNum + 1)*10, y, speedX, speedY, power);
-            res.add(baseBullet);
-        }
-        return res;
+        return fireStrategy.executeStrategy(this.getLocationX(),this.getLocationY(),this.getSpeedX(),this.getSpeedY());
     }
 
 }
