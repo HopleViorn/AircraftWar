@@ -20,13 +20,13 @@ public class UserDataInput {
 
     public UserDataInput(int score) {
         Date date = new Date(System.currentTimeMillis());
-
+        textField1.setText("Dr.Anonymous");
         buttonOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 synchronized (frame) {
 
-                    userDao.addUser(new User((int) (Math.random() * 10000), textField1.getText(), score, date));
+                    userDao.addUser(new User((int) (Math.random() * 1000000), textField1.getText(), score, date));
                     userDao.getAllUsers().sort((a, b) -> (a.score <= b.score ? (a.score < b.score ? 1 : 0) : -1));
 
                     System.out.println("Game Over!");
@@ -41,14 +41,7 @@ public class UserDataInput {
                     for (User user : userDao.getAllUsers()) {
                         System.out.println("Rank " + (++rank) + ":userID:" + user.userID + ",score:" + user.score + "," + formatter.format(user.date));
                     }
-
-                    try {
-                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("save.data"));
-                        oos.writeObject(userDao);
-                    } catch (Exception e) {
-                        System.out.println("Save Failed!");
-                        e.printStackTrace();
-                    }
+                    userDao.writeToFile();
 
                     frame.setVisible(false);
                     frame.notify();

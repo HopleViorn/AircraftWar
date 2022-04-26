@@ -105,14 +105,7 @@ public class Game extends JPanel {
      * 游戏启动入口，执行游戏逻辑
      */
     public void action() {
-
-        try(ObjectInputStream ois=new ObjectInputStream(new FileInputStream("save.data"))){
-            userDao=(UserDaoImpl) ois.readObject();
-        }catch(Exception err) {
-            err.printStackTrace();
-        }
-        if(userDao==null) userDao=new UserDaoImpl();
-
+        userDao.readFromFile();
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
@@ -134,7 +127,7 @@ public class Game extends JPanel {
                     enemyAircrafts.add(eliteFactory.create(
                             (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
                             (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,
-                            (int) (Math.random()*10),
+                            (int) ((Math.random()-0.5)*10),
                             15
                     ));
 

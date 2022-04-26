@@ -47,17 +47,10 @@ public class ScoreBoard {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 userDao.deleteUser(Integer.parseInt((String) scoreTable.getValueAt(scoreTable.getSelectedRow(),1)));
-                System.out.println(Integer.parseInt((String) scoreTable.getValueAt(scoreTable.getSelectedRow(),1)));
                 model.removeRow(scoreTable.getSelectedRow());
                 scoreTable.setModel(model);
                 buttonDelete.setEnabled(false);
-                try {
-                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("save.data"));
-                    oos.writeObject(userDao);
-                } catch (Exception e) {
-                    System.out.println("Save Failed!");
-                    e.printStackTrace();
-                }
+                userDao.writeToFile();
             }
         });
         buttonExit.addActionListener(new ActionListener() {

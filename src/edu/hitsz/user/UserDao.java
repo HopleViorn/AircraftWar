@@ -8,4 +8,6 @@ public interface UserDao {
     public User findUser(int userID);
     public void addUser(User user);
     public void deleteUser(int userID);
+    public void readFromFile();
+    public void writeToFile();
 }
