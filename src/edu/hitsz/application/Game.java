@@ -158,8 +158,9 @@ public class Game extends JPanel {
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
-                executorService.shutdown();
-//                System.out.println(executorService.shutdownNow());
+//                executorService.shutdown();
+
+                executorService.shutdownNow();
 
                 gameOverFlag = true;
 
@@ -183,7 +184,8 @@ public class Game extends JPanel {
                 try {
                     t.join();
                 }catch(Exception e){
-                    e.printStackTrace();
+                    t.stop();
+                    break;
                 }
             }
         };
