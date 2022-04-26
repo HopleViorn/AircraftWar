@@ -10,6 +10,7 @@ import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
 
 import javax.swing.*;
+import javax.swing.plaf.TableHeaderUI;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -40,7 +41,7 @@ public class Game extends JPanel {
     /**
      * 时间间隔(ms)，控制刷新频率
      */
-    private static int timeInterval = 8;
+    private static final int timeInterval = 8;
 
     public static int getTimeInterval() {
         return timeInterval;
@@ -53,8 +54,8 @@ public class Game extends JPanel {
     private final List<AbstractProp> props;
     private Boss boss;
 
-    private int enemyMaxNumber = 5;
-    private int bossScoreThreshold=100;
+    private final int enemyMaxNumber = 5;
+    private final int bossScoreThreshold=100;
 
     private boolean gameOverFlag = false;
     private int score = 0;
@@ -66,12 +67,12 @@ public class Game extends JPanel {
     private int cycleDuration = 600;
     private int cycleTime = 0;
 
-    private EliteFactory eliteFactory = new EliteFactory();
-    private MobEnemyFactory mobEnemyFactory = new MobEnemyFactory();
-    private BulletPropFactory bulletPropFactory = new BulletPropFactory();
-    private BloodPropFactory bloodPropFactory = new BloodPropFactory();
-    private BombPropFactory bombPropFactory = new BombPropFactory();
-    private BossFactory bossFactory = new BossFactory();
+    private final EliteFactory eliteFactory = new EliteFactory();
+    private final MobEnemyFactory mobEnemyFactory = new MobEnemyFactory();
+    private final BulletPropFactory bulletPropFactory = new BulletPropFactory();
+    private final BloodPropFactory bloodPropFactory = new BloodPropFactory();
+    private final BombPropFactory bombPropFactory = new BombPropFactory();
+    private final BossFactory bossFactory = new BossFactory();
 
     public Game() {
         heroAircraft = HeroAircraft.getInstance(
@@ -85,7 +86,7 @@ public class Game extends JPanel {
         props = new LinkedList<>();
 
         //Scheduled 线程池，用于定时任务调度
-        executorService = new ScheduledThreadPoolExecutor(1);
+        executorService = new ScheduledThreadPoolExecutor(2);
 
         //启动英雄机鼠标监听
         new HeroController(this, heroAircraft);
@@ -103,6 +104,9 @@ public class Game extends JPanel {
             err.printStackTrace();
         }
         if(userDao==null) userDao=new UserDaoImpl();
+
+
+
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
 
@@ -155,7 +159,9 @@ public class Game extends JPanel {
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
-                executorService.shutdown();
+//                executorService.shutdown();
+                System.out.println(executorService.shutdownNow());
+
                 gameOverFlag = true;
 
                 Date date = new Date(System.currentTimeMillis());
@@ -176,7 +182,6 @@ public class Game extends JPanel {
                 SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
                 int rank = 0;
                 for(User user:userDao.getAllUsers()){
-
                     System.out.println("Rank "+(++rank)+":userID:"+user.userID+",score:"+user.score+","+formatter.format(date));
                 }
 
@@ -195,6 +200,20 @@ public class Game extends JPanel {
          * 以固定延迟时间进行执行
          * 本次任务执行完成后，需要延迟设定的延迟时间，才会执行新的任务
          */
+
+        Runnable musicPlay=()->{
+            while(true){
+                Thread t= new MusicThread("src/videos/bgm.wav");
+                t.start();
+                try {
+                    t.join();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        executorService.execute(musicPlay);
         executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
 
     }

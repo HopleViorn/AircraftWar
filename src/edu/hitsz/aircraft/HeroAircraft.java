@@ -42,7 +42,19 @@ public class HeroAircraft extends AbstractAircraft {
     }
 
     public void fireSupply() {
-        fireStrategy.setStrategy(new Scattered(HERO,-1,6,30));
+        Runnable r=()-> {
+            try {
+                fireStrategy.setStrategy(new Scattered(HERO,-1,6,30));
+                for(int i=5;i>=1;--i) {
+                    System.out.println("Fire supply will be end in "+ i +"s.");
+                    Thread.sleep(1000);
+                }
+                fireStrategy.setStrategy(new Single(HERO,-1,2,30));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+        new Thread(r).start();
     }
 
     @Override
