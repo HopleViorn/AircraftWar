@@ -15,7 +15,7 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.sound.sampled.DataLine.Info;
 
-import edu.hitsz.application.Game；
+import edu.hitsz.application.Game;
 
 public class MusicThread extends Thread {
 

@@ -3,6 +3,7 @@ package edu.hitsz.basic;
 import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
+import org.cef.handler.CefMediaAccessHandler;
 
 import java.awt.image.BufferedImage;
 
@@ -75,8 +76,15 @@ public abstract class AbstractFlyingObject {
      * 若飞行对象触碰到横向边界，横向速度反向
      */
     public void forward(double timeInterval) {
-        locationX += speedX*timeInterval/40;
-        locationY += speedY*timeInterval/40;
+        int dlt=0;
+        dlt=(int) Math.ceil(speedX*timeInterval/40);
+        if(dlt==0&&speedX>0) dlt=1;
+        if(dlt==0&&speedX<0) dlt=-1;
+        locationX +=dlt;
+        dlt=(int) Math.ceil(speedY*timeInterval/40);
+        if(dlt==0&&speedY>0) dlt=1;
+        if(dlt==0&&speedY<0) dlt=-1;
+        locationY +=dlt;
         if (locationX <= 0 || locationX >= Main.WINDOW_WIDTH) {
             // 横向超出边界后反向
             speedX = -speedX;

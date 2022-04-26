@@ -114,7 +114,6 @@ public class Game extends JPanel {
 
             // 周期性执行（控制频率）
             if (timeCountAndNewCycleJudge()) {
-                System.out.println(time);
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     boolean add = enemyAircrafts.add(mobEnemyFactory.create(
@@ -128,7 +127,7 @@ public class Game extends JPanel {
                     enemyAircrafts.add(eliteFactory.create(
                             (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
                             (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,
-                            10,
+                            (int) (Math.random()*10),
                             15
                     ));
 
@@ -147,6 +146,8 @@ public class Game extends JPanel {
 
             propsMoveAction();
 
+            propsMoveAction();
+
             // 撞击检测
             crashCheckAction();
 
@@ -159,8 +160,8 @@ public class Game extends JPanel {
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
-//                executorService.shutdown();
-                System.out.println(executorService.shutdownNow());
+                executorService.shutdown();
+//                System.out.println(executorService.shutdownNow());
 
                 gameOverFlag = true;
 
@@ -213,7 +214,9 @@ public class Game extends JPanel {
             }
         };
 
-        executorService.execute(musicPlay);
+        if(Settings.systemMusicState== Settings.SystemMusicState.ON) {
+            executorService.execute(musicPlay);
+        }
         executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
 
     }
@@ -245,7 +248,7 @@ public class Game extends JPanel {
             enemyAircrafts.add(
                     (Boss) bossFactory.create(
                     (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
-                    (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,5,2)
+                    (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,5,0)
             );
             lastscore = score;
         }
@@ -297,9 +300,7 @@ public class Game extends JPanel {
             if(heroAircraft.crash(bullet)) {
                 heroAircraft.decreaseHp(bullet.getPower());
                 bullet.vanish();
-
             }
-
         }
         // 英雄子弹攻击敌机
         for (BaseBullet bullet : heroBullets) {
