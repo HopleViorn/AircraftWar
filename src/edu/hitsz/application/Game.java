@@ -1,16 +1,23 @@
 package edu.hitsz.application;
 
-import edu.hitsz.aircraft.*;
-import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.Boss;
+import edu.hitsz.aircraft.Elite;
+import edu.hitsz.aircraft.HeroAircraft;
+
+import static edu.hitsz.application.Main.frame;
+import static edu.hitsz.application.Main.userDao;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.creator.*;
-import edu.hitsz.prop.*;
+import edu.hitsz.prop.AbstractProp;
+import edu.hitsz.prop.BloodProp;
+import edu.hitsz.prop.BombProp;
+import edu.hitsz.prop.BulletProp;
 import edu.hitsz.user.User;
-import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
 
 import javax.swing.*;
-import javax.swing.plaf.TableHeaderUI;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -18,9 +25,12 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -29,8 +39,6 @@ import java.util.concurrent.*;
  * @author hitsz
  */
 public class Game extends JPanel {
-
-    private UserDao userDao = new UserDaoImpl();
     private double backGroundTop = 0;
 
     /**
@@ -167,11 +175,12 @@ public class Game extends JPanel {
 
                 Date date = new Date(System.currentTimeMillis());
                 try {
-                    userDao.addUser(new User((int) (Math.random() * 10000), score,date));
+                    userDao.addUser(new User((int) (Math.random() * 10000),"Test User", score,date));
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                userDao.getAllUsers().sort((a,b)->(a.score<=b.score?(a.score<b.score?1:0):-1));
+                userDao.getAllUsers().sort((a, b)->(a.score<=b.score?(a.score<b.score?1:0):-1));
+
                 System.out.println("Game Over!");
 
                 System.out.println("RankList");
@@ -179,11 +188,10 @@ public class Game extends JPanel {
                 System.out.println("                      Score Board");
                 System.out.println("******************************************************");
 
-
                 SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
                 int rank = 0;
-                for(User user:userDao.getAllUsers()){
-                    System.out.println("Rank "+(++rank)+":userID:"+user.userID+",score:"+user.score+","+formatter.format(date));
+                for(User user: userDao.getAllUsers()){
+                    System.out.println("Rank "+(++rank)+":userID:"+user.userID+",score:"+user.score+","+formatter.format(user.date));
                 }
 
                 try{
@@ -193,8 +201,13 @@ public class Game extends JPanel {
                     System.out.println("Save Failed!");
                     e.printStackTrace();
                 }
-            }
+                synchronized (frame){
+                    frame.notify();
+                    frame.setVisible(false);
+                }
 
+
+            }
         };
 
         /**

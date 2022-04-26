@@ -5,10 +5,12 @@ import java.util.Date;
 
 public class User implements Serializable {
     public int userID;
+    public String Name;
     public int score;
-    Date date;
-    public User(int userID,int score,Date date){
+    public Date date;
+    public User(int userID,String Name,int score,Date date){
         this.userID=userID;
+        this.Name=Name;
         this.score=score;
         this.date=date;
     }

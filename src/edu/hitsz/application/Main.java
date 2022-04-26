@@ -1,5 +1,8 @@
 package edu.hitsz.application;
 
+import edu.hitsz.user.UserDao;
+import edu.hitsz.user.UserDaoImpl;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +13,7 @@ import java.awt.*;
 public class Main {
 
     public static JFrame frame=new JFrame();
-
+    public static UserDao userDao = new UserDaoImpl();
     public static final int WINDOW_WIDTH = 512;
     public static final int WINDOW_HEIGHT = 768;
 
@@ -48,6 +51,13 @@ public class Main {
             frame.setVisible(true);
             game.action();
         }
-
+        synchronized (frame){
+            frame.wait();
+            frame=new JFrame("ScoreBoard");
+            frame.setContentPane(new ScoreBoard(userDao).panel1);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setVisible(true);
+        }
     }
 }
