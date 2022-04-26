@@ -392,8 +392,16 @@ public class Game extends JPanel {
         super.paint(g);
 
         // 绘制背景,图片滚动
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, (int) (this.backGroundTop - Main.WINDOW_HEIGHT), null);
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, (int) this.backGroundTop, null);
+        BufferedImage bufferedImage=null;
+
+        switch(Settings.difficulty){
+            case Casual:bufferedImage=ImageManager.BACKGROUND_IMAGE;break;
+            case Medium:bufferedImage=ImageManager.BACKGROUND_IMAGE2;break;
+            case Hard:bufferedImage=ImageManager.BACKGROUND_IMAGE3;break;
+            default:bufferedImage=ImageManager.BACKGROUND_IMAGE4;break;
+        }
+        g.drawImage(bufferedImage, 0, (int) (this.backGroundTop - Main.WINDOW_HEIGHT), null);
+        g.drawImage(bufferedImage, 0, (int) this.backGroundTop, null);
         this.backGroundTop += 1.0 * timeInterval/40;
         if (this.backGroundTop == Main.WINDOW_HEIGHT) {
             this.backGroundTop = 0;

@@ -34,6 +34,11 @@ public class ImageManager {
     private static final Map<String, BufferedImage> CLASSNAME_IMAGE_MAP = new HashMap<>();
 
     public static BufferedImage BACKGROUND_IMAGE;
+    public static BufferedImage BACKGROUND_IMAGE2;
+    public static BufferedImage BACKGROUND_IMAGE3;
+    public static BufferedImage BACKGROUND_IMAGE4;
+    public static BufferedImage BACKGROUND_IMAGE5;
+
     public static BufferedImage HERO_IMAGE;
     public static BufferedImage HERO_BULLET_IMAGE;
     public static BufferedImage ENEMY_BULLET_IMAGE;
@@ -49,6 +54,10 @@ public class ImageManager {
         try {
 
             BACKGROUND_IMAGE = ImageIO.read(new FileInputStream("src/images/bg.jpg"));
+            BACKGROUND_IMAGE2 = ImageIO.read(new FileInputStream("src/images/bg2.jpg"));
+            BACKGROUND_IMAGE3 = ImageIO.read(new FileInputStream("src/images/bg3.jpg"));
+            BACKGROUND_IMAGE4 = ImageIO.read(new FileInputStream("src/images/bg4.jpg"));
+            BACKGROUND_IMAGE5 = ImageIO.read(new FileInputStream("src/images/bg5.jpg"));
 
             HERO_IMAGE = ImageIO.read(new FileInputStream("src/images/hero.png"));
             MOB_ENEMY_IMAGE = ImageIO.read(new FileInputStream("src/images/mob.png"));
@@ -61,6 +70,7 @@ public class ImageManager {
             PROP_BLOOD_IMAGE=ImageIO.read(new FileInputStream("src/images/prop_blood.png"));
             PROP_BOMB_IMAGE=ImageIO.read(new FileInputStream("src/images/prop_bomb.png"));
             PROP_BULLET_IMAGE=ImageIO.read(new FileInputStream("src/images/prop_bullet.png"));
+
 
             CLASSNAME_IMAGE_MAP.put(HeroAircraft.class.getName(), HERO_IMAGE);
             CLASSNAME_IMAGE_MAP.put(MobEnemy.class.getName(), MOB_ENEMY_IMAGE);
