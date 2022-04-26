@@ -4,7 +4,11 @@ import edu.hitsz.user.User;
 import edu.hitsz.user.UserDao;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+
+import static edu.hitsz.application.Main.frame;
 
 public class ScoreBoard {
     public JPanel panel1;
@@ -14,7 +18,7 @@ public class ScoreBoard {
     private JPanel buttonPanel;
     private JLabel tittle;
     private JButton buttonDelete;
-    private JButton exitButton;;
+    private JButton buttonExit;;
 
     public ScoreBoard(UserDao userDao){
         String [] columName={"Rank","Name","Score","Date"};
@@ -32,6 +36,20 @@ public class ScoreBoard {
 
         DefaultTableModel model=new DefaultTableModel(tableData,columName);
         scoreTable.setModel(model);
+        buttonDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
+        buttonExit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                synchronized (frame) {
+                    frame.setVisible(false);
+                }
+            }
+        });
     }
 
 

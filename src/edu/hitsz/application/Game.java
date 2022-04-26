@@ -154,8 +154,6 @@ public class Game extends JPanel {
 
             propsMoveAction();
 
-            propsMoveAction();
-
             // 撞击检测
             crashCheckAction();
 
