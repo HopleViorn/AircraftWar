@@ -6,9 +6,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 
 import static edu.hitsz.application.Main.frame;
+import static edu.hitsz.application.Main.userDao;
 
 public class ScoreBoard {
     public JPanel panel1;
@@ -21,16 +26,18 @@ public class ScoreBoard {
     private JButton buttonExit;;
 
     public ScoreBoard(UserDao userDao){
-        String [] columName={"Rank","Name","Score","Date"};
-        String [][] tableData=new String[userDao.getAllUsers().size()][4];
+        buttonDelete.setEnabled(false);
+        String [] columName={"Rank","UserID","Name","Score","Date"};
+        String [][] tableData=new String[userDao.getAllUsers().size()][5];
 
         int rank=0;
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
         for(User user: userDao.getAllUsers()){
             tableData[rank][0]=""+(rank+1);
-            tableData[rank][1]=user.Name;
-            tableData[rank][2]=""+user.score;
-            tableData[rank][3]=formatter.format(user.date);
+            tableData[rank][1]=""+user.userID;
+            tableData[rank][2]=user.Name;
+            tableData[rank][3]=""+user.score;
+            tableData[rank][4]=formatter.format(user.date);
             rank++;
         }
 
@@ -39,7 +46,18 @@ public class ScoreBoard {
         buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                userDao.deleteUser(Integer.parseInt((String) scoreTable.getValueAt(scoreTable.getSelectedRow(),1)));
+                System.out.println(Integer.parseInt((String) scoreTable.getValueAt(scoreTable.getSelectedRow(),1)));
+                model.removeRow(scoreTable.getSelectedRow());
+                scoreTable.setModel(model);
+                buttonDelete.setEnabled(false);
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("save.data"));
+                    oos.writeObject(userDao);
+                } catch (Exception e) {
+                    System.out.println("Save Failed!");
+                    e.printStackTrace();
+                }
             }
         });
         buttonExit.addActionListener(new ActionListener() {
@@ -47,7 +65,16 @@ public class ScoreBoard {
             public void actionPerformed(ActionEvent actionEvent) {
                 synchronized (frame) {
                     frame.setVisible(false);
+                    System.exit(0);
                 }
+            }
+        });
+        scoreTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(scoreTable.getSelectedRow()==-1)
+                    buttonDelete.setEnabled(false);
+                else buttonDelete.setEnabled(true);
             }
         });
     }

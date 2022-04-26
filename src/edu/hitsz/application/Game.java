@@ -66,7 +66,7 @@ public class Game extends JPanel {
     private final int bossScoreThreshold=100;
 
     private boolean gameOverFlag = false;
-    private int score = 0;
+    public int score = 0;
     private int time = 0;
     /**
      * 周期（ms)
@@ -112,7 +112,6 @@ public class Game extends JPanel {
             err.printStackTrace();
         }
         if(userDao==null) userDao=new UserDaoImpl();
-
 
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
@@ -171,41 +170,12 @@ public class Game extends JPanel {
 
                 gameOverFlag = true;
 
-                Date date = new Date(System.currentTimeMillis());
-                try {
-                    userDao.addUser(new User((int) (Math.random() * 10000),"Test User", score,date));
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                userDao.getAllUsers().sort((a, b)->(a.score<=b.score?(a.score<b.score?1:0):-1));
-
-                System.out.println("Game Over!");
-
-                System.out.println("RankList");
-                System.out.println("******************************************************");
-                System.out.println("                      Score Board");
-                System.out.println("******************************************************");
-
-                SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-                int rank = 0;
-                for(User user: userDao.getAllUsers()){
-                    System.out.println("Rank "+(++rank)+":userID:"+user.userID+",score:"+user.score+","+formatter.format(user.date));
-                }
-
-                try{
-                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("save.data"));
-                    oos.writeObject(userDao);
-                } catch (Exception e) {
-                    System.out.println("Save Failed!");
-                    e.printStackTrace();
-                }
-                synchronized (frame){
-                    frame.notify();
+                synchronized (frame) {
                     frame.setVisible(false);
+                    frame.notify();
                 }
-
-
             }
+
         };
 
         /**

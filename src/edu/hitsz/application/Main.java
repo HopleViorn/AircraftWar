@@ -30,10 +30,9 @@ public class Main {
             frame = new JFrame("StartMenu");
             frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.setContentPane(new StartMenu().panel1);
-            frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, 0,
-                    WINDOW_WIDTH, WINDOW_HEIGHT);
+            frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, (int) (screenSize.getHeight()/2),WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            //frame.pack();
+            frame.pack();
             frame.setVisible(true);
         }
         synchronized (frame) {
@@ -51,11 +50,22 @@ public class Main {
             frame.setVisible(true);
             game.action();
         }
+
+        synchronized (frame){
+            frame.wait();
+            frame = new JFrame("UserDataInput");
+            frame.setContentPane(new UserDataInput(game.score).panel1);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, (int) (screenSize.getHeight()/2),WINDOW_WIDTH, WINDOW_HEIGHT);
+            frame.pack();
+            frame.setVisible(true);
+        }
         synchronized (frame){
             frame.wait();
             frame=new JFrame("ScoreBoard");
             frame.setContentPane(new ScoreBoard(userDao).panel1);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, (int) (screenSize.getHeight()/2),WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.pack();
             frame.setVisible(true);
         }
