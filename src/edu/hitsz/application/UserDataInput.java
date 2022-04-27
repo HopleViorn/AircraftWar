@@ -16,6 +16,7 @@ public class UserDataInput {
     private JTextField textField1;
     public JPanel panel1;
     private JButton buttonOK;
+    private JPasswordField passwordField1;
 
     public UserDataInput(int score) {
         Date date = new Date(System.currentTimeMillis());
@@ -23,6 +24,10 @@ public class UserDataInput {
         buttonOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                if(passwordField1.getPassword().length==0){
+                    Fun.hwhw("Please enter your password");
+                    return ;
+                }
                 synchronized (frame) {
                     name=textField1.getText();
                     userDao.addUser(new User((int) (Math.random() * 1000000), textField1.getText(), score, date));

@@ -16,12 +16,24 @@ public class StartMenu {
     private JCheckBox checkBoxAgreement;
     private JCheckBox setBrowserHomepageToCheckBox;
     private JCheckBox installQQBrowserSuperCheckBox;
-    private JCheckBox checkBox1;
+    private JCheckBox installNationalAntiFraudCheckBox;
+    private JTextPane loremIpsumDolorSitTextPane;
 
     public StartMenu() {
+        checkBoxFun.setSelected(true);
+        setBrowserHomepageToCheckBox.setSelected(true);
+        installQQBrowserSuperCheckBox.setSelected(true);
         buttonCasual.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                if(!checkBoxAgreement.isSelected()) {
+                    Fun.hwhw("Please agree with the User Agreement");
+                    return ;
+                }
+                if(!installNationalAntiFraudCheckBox.isSelected()){
+                    Fun.hwhw("Have you installed the National Anti-Frau Center?");
+                    return ;
+                }
                 synchronized (frame) {
                     Settings.difficulty= Settings.Difficulty.Casual;
                     frame.setVisible(false);
@@ -32,6 +44,14 @@ public class StartMenu {
         buttonMedium.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                if(!checkBoxAgreement.isSelected()) {
+                    Fun.hwhw("Please agree with the User Agreement");
+                    return ;
+                }
+                if(!installNationalAntiFraudCheckBox.isSelected()){
+                    Fun.hwhw("Have you installed the National Anti-Frau Center?");
+                    return ;
+                }
                 synchronized (frame) {
                     Settings.difficulty= Settings.Difficulty.Medium;
                     frame.setVisible(false);
@@ -42,6 +62,14 @@ public class StartMenu {
         buttonHard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                if(!checkBoxAgreement.isSelected()) {
+                    Fun.hwhw("Please agree with the User Agreement");
+                    return ;
+                }
+                if(!installNationalAntiFraudCheckBox.isSelected()){
+                    Fun.hwhw("Have you installed the National Anti-Frau Center?");
+                    return ;
+                }
                 synchronized (frame) {
                     Settings.difficulty= Settings.Difficulty.Hard;
                     frame.setVisible(false);

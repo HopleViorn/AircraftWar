@@ -31,8 +31,8 @@ public class Main {
         synchronized (frame) {
             frame = new JFrame("StartMenu");
             frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+            frame.setBounds(((int) screenSize.getWidth()-frame.getWidth()) / 2, (int) (screenSize.getHeight()-frame.getHeight())/2,frame.getWidth(), frame.getHeight());
             frame.setContentPane(new StartMenu().panel1);
-            frame.setBounds(((int) screenSize.getWidth()) / 2, (int) (screenSize.getHeight()/4),WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
@@ -58,7 +58,7 @@ public class Main {
             frame = new JFrame("UserDataInput");
             frame.setContentPane(new UserDataInput(game.score).panel1);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setBounds(((int) screenSize.getWidth()) / 2, (int) (screenSize.getHeight()/4),WINDOW_WIDTH, WINDOW_HEIGHT);
+            frame.setBounds(((int) screenSize.getWidth()-frame.getWidth()) / 2, (int) (screenSize.getHeight()-frame.getHeight())/2,WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.pack();
             frame.setVisible(true);
         }
