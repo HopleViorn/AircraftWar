@@ -24,11 +24,13 @@ public class MusicThread extends Thread {
     private String filename;
     private AudioFormat audioFormat;
     private byte[] samples;
-    public  boolean GG;
+    public boolean GG;
+    public boolean loop;
 
-    public MusicThread(String filename) {
+    public MusicThread(String filename,boolean loop) {
         //初始化filename
         this.filename = filename;
+        this.loop=loop;
         reverseMusic();
     }
 
@@ -102,13 +104,13 @@ public class MusicThread extends Thread {
     @Override
     public void run() {
         GG=false;
-        while (!GG) {
+        do {
             reverseMusic();
-            System.out.println("Music Start");
+            System.out.println("Music Start:"+filename);
             InputStream stream = new ByteArrayInputStream(samples);
             play(stream);
-            System.out.println("Music Stop");
-        }
+            System.out.println("Music Stop:"+filename);
+        }while(!GG&loop);
     }
 
 }

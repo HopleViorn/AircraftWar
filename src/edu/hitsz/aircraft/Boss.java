@@ -1,6 +1,7 @@
 package edu.hitsz.aircraft;
 
 import edu.hitsz.application.Main;
+import edu.hitsz.application.MusicThread;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.strategy.FireStrategy;
@@ -21,6 +22,17 @@ public class Boss extends AbstractAircraft{
 
     public Boss(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
+        playMusic();
+    }
+
+    MusicThread musicThread;
+    public void playMusic(){
+        musicThread=new MusicThread("src/videos/bgm_boss.wav",true);
+        musicThread.start();
+    }
+    public void stopMusic(){
+        musicThread.interrupt();
+        musicThread.GG=true;
     }
 
     @Override

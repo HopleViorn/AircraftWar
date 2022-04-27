@@ -9,6 +9,7 @@ import static edu.hitsz.application.Main.frame;
 import static edu.hitsz.application.Main.userDao;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.creator.*;
 import edu.hitsz.prop.AbstractProp;
 import edu.hitsz.prop.BloodProp;
@@ -108,7 +109,7 @@ public class Game extends JPanel {
         userDao.readFromFile();
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
-        MusicThread musicPlay=new MusicThread("src/videos/bgm.wav");
+        MusicThread musicPlay=new MusicThread("src/videos/bgm.wav",true);
         Runnable task = () -> {
 
             time += timeInterval;
@@ -350,6 +351,13 @@ public class Game extends JPanel {
      * 无效的原因可能是撞击或者飞出边界
      */
     private void postProcessAction() {
+        for(AbstractAircraft enemy:enemyAircrafts){
+            if(enemy instanceof Boss){
+                if(enemy.notValid()){
+                    ((Boss) enemy).stopMusic();
+                }
+            }
+        }
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
         enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
