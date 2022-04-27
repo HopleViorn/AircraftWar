@@ -165,6 +165,9 @@ public class Game extends JPanel {
                 executorService.shutdown();
                 musicPlay.GG=true;
                 musicPlay.interrupt();
+                if(boss!=null){
+                    boss.stopMusic();
+                }
 
                 gameOverFlag = true;
 
@@ -219,11 +222,14 @@ public class Game extends JPanel {
 
     private int lastscore = 0;
     private void bossSpawn(){
+        boss=null;
         for(AbstractAircraft enemy : enemyAircrafts) {
             if(enemy instanceof Boss){
-                return ;
+                boss= (Boss) enemy;
+                break;
             }
         }
+        if(boss!=null) return ;
 
         if(score-lastscore>=bossScoreThreshold){
             enemyAircrafts.add(
@@ -295,6 +301,7 @@ public class Game extends JPanel {
                     continue;
                 }
                 if (enemyAircraft.crash(bullet)) {
+                    new MusicThread("src/videos/bullet_hit.wav",false).start();
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
                     enemyAircraft.decreaseHp(bullet.getPower());
@@ -328,6 +335,7 @@ public class Game extends JPanel {
         for(AbstractProp prs : props){
             if(prs.notValid()) {continue;}
             if(prs.crash(heroAircraft)) {
+                new MusicThread("src/videos/get_supply.wav",false).start();
                 if(prs instanceof BloodProp){
                     heroAircraft.decreaseHp(-40);
                 }else if(prs instanceof BombProp){
@@ -351,11 +359,9 @@ public class Game extends JPanel {
      * 无效的原因可能是撞击或者飞出边界
      */
     private void postProcessAction() {
-        for(AbstractAircraft enemy:enemyAircrafts){
-            if(enemy instanceof Boss){
-                if(enemy.notValid()){
-                    ((Boss) enemy).stopMusic();
-                }
+        if(boss!=null){
+            if(boss.notValid()){
+                boss.stopMusic();
             }
         }
         enemyBullets.removeIf(AbstractFlyingObject::notValid);

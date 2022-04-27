@@ -1,5 +1,6 @@
 package edu.hitsz.aircraft;
 
+import edu.hitsz.application.MusicThread;
 import edu.hitsz.bullet.*;
 import edu.hitsz.strategy.FireStrategy;
 import edu.hitsz.strategy.Scattered;
@@ -68,6 +69,7 @@ public class HeroAircraft extends AbstractAircraft {
      * @return 射击出的子弹List
      */
     public List<BaseBullet> shoot() {
+        new MusicThread("src/videos/bullet.wav",false).start();
         return fireStrategy.executeStrategy(this.getLocationX(),this.getLocationY(),this.getSpeedX(),this.getSpeedY());
     }
 
