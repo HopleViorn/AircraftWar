@@ -10,8 +10,7 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static edu.hitsz.application.Main.frame;
-import static edu.hitsz.application.Main.userDao;
+import static edu.hitsz.application.Main.*;
 
 public class UserDataInput {
     private JTextField textField1;
@@ -25,10 +24,9 @@ public class UserDataInput {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 synchronized (frame) {
-
+                    name=textField1.getText();
                     userDao.addUser(new User((int) (Math.random() * 1000000), textField1.getText(), score, date));
                     userDao.getAllUsers().sort((a, b) -> (a.score <= b.score ? (a.score < b.score ? 1 : 0) : -1));
-
                     System.out.println("Game Over!");
 
                     System.out.println("RankList");

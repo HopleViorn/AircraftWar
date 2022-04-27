@@ -23,9 +23,22 @@ public class ScoreBoard {
     private JPanel buttonPanel;
     private JLabel tittle;
     private JButton buttonDelete;
-    private JButton buttonExit;;
+    private JButton buttonExit;
+    private JLabel tittleDifficulty;
+    private JLabel tittlereseve;
+    private JLabel tittlereseve2;
+    ;
 
-    public ScoreBoard(UserDao userDao){
+    public ScoreBoard(UserDao userDao,String name,int score){
+        switch (Settings.difficulty){
+            case Casual:tittleDifficulty.setText("Difficulty:Casual");break;
+            case Medium:tittleDifficulty.setText("Difficulty:Medium");break;
+            case Hard:tittleDifficulty.setText("Difficulty:Hard");break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + Settings.difficulty);
+        }
+        tittlereseve.setText(name);
+        tittlereseve2.setText("score:"+score);
         buttonDelete.setEnabled(false);
         String [] columName={"Rank","UserID","Name","Score","Date"};
         String [][] tableData=new String[userDao.getAllUsers().size()][5];

@@ -14,10 +14,12 @@ public class Main {
 
     public static JFrame frame=new JFrame();
     public static UserDao userDao = new UserDaoImpl();
+    public static String name;
     public static final int WINDOW_WIDTH = 512;
     public static final int WINDOW_HEIGHT = 768;
 
     public static void main(String[] args) throws InterruptedException {
+
 
         System.out.println("Hello Aircraft War");
 
@@ -30,7 +32,7 @@ public class Main {
             frame = new JFrame("StartMenu");
             frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.setContentPane(new StartMenu().panel1);
-            frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, (int) (screenSize.getHeight()/2),WINDOW_WIDTH, WINDOW_HEIGHT);
+            frame.setBounds(((int) screenSize.getWidth()) / 2, (int) (screenSize.getHeight()/4),WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
@@ -56,16 +58,16 @@ public class Main {
             frame = new JFrame("UserDataInput");
             frame.setContentPane(new UserDataInput(game.score).panel1);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, (int) (screenSize.getHeight()/2),WINDOW_WIDTH, WINDOW_HEIGHT);
+            frame.setBounds(((int) screenSize.getWidth()) / 2, (int) (screenSize.getHeight()/4),WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.pack();
             frame.setVisible(true);
         }
         synchronized (frame){
             frame.wait();
             frame=new JFrame("ScoreBoard");
-            frame.setContentPane(new ScoreBoard(userDao).panel1);
+            frame.setContentPane(new ScoreBoard(userDao,name,game.score).panel1);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, (int) (screenSize.getHeight()/2),WINDOW_WIDTH, WINDOW_HEIGHT);
+            frame.setBounds(((int) screenSize.getWidth()) / 3, (int) (screenSize.getHeight()/4),WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.pack();
             frame.setVisible(true);
         }

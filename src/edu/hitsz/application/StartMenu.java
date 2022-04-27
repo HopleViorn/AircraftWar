@@ -12,6 +12,11 @@ public class StartMenu {
     private JButton buttonMedium;
     private JButton buttonHard;
     private JCheckBox checkboxMusic;
+    private JCheckBox checkBoxFun;
+    private JCheckBox checkBoxAgreement;
+    private JCheckBox setBrowserHomepageToCheckBox;
+    private JCheckBox installQQBrowserSuperCheckBox;
+    private JCheckBox checkBox1;
 
     public StartMenu() {
         buttonCasual.addActionListener(new ActionListener() {
