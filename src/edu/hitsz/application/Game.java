@@ -108,6 +108,7 @@ public class Game extends JPanel {
         userDao.readFromFile();
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
+        MusicThread musicPlay=new MusicThread("src/videos/bgm.wav");
         Runnable task = () -> {
 
             time += timeInterval;
@@ -160,7 +161,9 @@ public class Game extends JPanel {
                 // 游戏结束
 //                executorService.shutdown();
 
-                executorService.shutdownNow();
+                executorService.shutdown();
+                musicPlay.GG=true;
+                musicPlay.interrupt();
 
                 gameOverFlag = true;
 
@@ -177,21 +180,22 @@ public class Game extends JPanel {
          * 本次任务执行完成后，需要延迟设定的延迟时间，才会执行新的任务
          */
 
-        Runnable musicPlay=()->{
-            while(true){
-                Thread t= new MusicThread("src/videos/bgm.wav");
-                t.start();
-                try {
-                    t.join();
-                }catch(Exception e){
-                    t.stop();
-                    break;
-                }
-            }
-        };
+//        Runnable musicPlay=()->{
+//            while(true){
+//                Thread t= new MusicThread("src/videos/bgm.wav");
+//                t.start();
+//                try {
+//                    t.join();
+//                }catch(Exception e){
+//                    e.printStackTrace();
+//                    t.interrupt();
+//                    break;
+//                }
+//            }
+//        };
 
         if(Settings.systemMusicState== Settings.SystemMusicState.ON) {
-            executorService.execute(musicPlay);
+            musicPlay.start();
         }
         executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
 

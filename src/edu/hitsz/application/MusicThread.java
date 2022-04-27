@@ -1,10 +1,14 @@
 package edu.hitsz.application;
 
+import edu.hitsz.strategy.Scattered;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -13,14 +17,14 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.plaf.TableHeaderUI;
 
 public class MusicThread extends Thread {
-
-
     //音频文件名
     private String filename;
     private AudioFormat audioFormat;
     private byte[] samples;
+    public  boolean GG;
 
     public MusicThread(String filename) {
         //初始化filename
@@ -75,6 +79,9 @@ public class MusicThread extends Thread {
         try {
             int numBytesRead = 0;
             while (numBytesRead != -1) {
+
+//                if (Thread.currentThread().isInterrupted()) break;
+                if(GG)break;
                 //从音频流读取指定的最大数量的数据字节，并将其放入缓冲区中
                 numBytesRead =
                         source.read(buffer, 0, buffer.length);
@@ -83,7 +90,6 @@ public class MusicThread extends Thread {
                     dataLine.write(buffer, 0, numBytesRead);
                 }
             }
-
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -95,11 +101,16 @@ public class MusicThread extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Music Start");
-        InputStream stream = new ByteArrayInputStream(samples);
-        play(stream);
-        System.out.println("Music End");
+        GG=false;
+        while (!GG) {
+            reverseMusic();
+            System.out.println("Music Start");
+            InputStream stream = new ByteArrayInputStream(samples);
+            play(stream);
+            System.out.println("Music Stop");
+        }
     }
+
 }
 
 
