@@ -27,6 +27,11 @@ public class MusicThread extends Thread {
     public boolean GG;
     public boolean loop;
 
+    public void stopPlay(){
+        GG=true;
+        return ;
+    }
+
     public MusicThread(String filename,boolean loop) {
         //初始化filename
         this.filename = filename;

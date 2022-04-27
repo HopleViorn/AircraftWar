@@ -32,7 +32,7 @@ public class Boss extends AbstractAircraft{
     }
     public void stopMusic(){
         musicThread.interrupt();
-        musicThread.GG=true;
+        musicThread.stopPlay();
     }
 
     @Override

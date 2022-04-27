@@ -163,7 +163,7 @@ public class Game extends JPanel {
 //                executorService.shutdown();
 
                 executorService.shutdown();
-                musicPlay.GG=true;
+                musicPlay.stopPlay();
                 musicPlay.interrupt();
                 if(boss!=null){
                     boss.stopMusic();

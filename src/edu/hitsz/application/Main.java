@@ -37,6 +37,7 @@ public class Main {
             frame.pack();
             frame.setVisible(true);
         }
+
         synchronized (frame) {
             frame.wait();
             frame = new JFrame("Aircraft War");
