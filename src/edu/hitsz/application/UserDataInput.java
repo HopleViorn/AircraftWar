@@ -5,8 +5,6 @@ import edu.hitsz.user.User;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,7 +23,7 @@ public class UserDataInput {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(passwordField1.getPassword().length==0){
-                    Fun.hwhw("Please enter your password");
+                    Attention.hwhw("Please enter your password");
                     return ;
                 }
                 synchronized (frame) {

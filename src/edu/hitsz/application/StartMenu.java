@@ -27,11 +27,11 @@ public class StartMenu {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(!checkBoxAgreement.isSelected()) {
-                    Fun.hwhw("Please agree with the User Agreement");
+                    Attention.hwhw("Please agree with the User Agreement");
                     return ;
                 }
                 if(!installNationalAntiFraudCheckBox.isSelected()){
-                    Fun.hwhw("Have you installed the National Anti-Frau Center?");
+                    Attention.hwhw("Have you installed the National Anti-Frau Center?");
                     return ;
                 }
                 synchronized (frame) {
@@ -45,11 +45,11 @@ public class StartMenu {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(!checkBoxAgreement.isSelected()) {
-                    Fun.hwhw("Please agree with the User Agreement");
+                    Attention.hwhw("Please agree with the User Agreement");
                     return ;
                 }
                 if(!installNationalAntiFraudCheckBox.isSelected()){
-                    Fun.hwhw("Have you installed the National Anti-Frau Center?");
+                    Attention.hwhw("Have you installed the National Anti-Frau Center?");
                     return ;
                 }
                 synchronized (frame) {
@@ -63,11 +63,11 @@ public class StartMenu {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(!checkBoxAgreement.isSelected()) {
-                    Fun.hwhw("Please agree with the User Agreement");
+                    Attention.hwhw("Please agree with the User Agreement");
                     return ;
                 }
                 if(!installNationalAntiFraudCheckBox.isSelected()){
-                    Fun.hwhw("Have you installed the National Anti-Frau Center?");
+                    Attention.hwhw("Have you installed the National Anti-Frau Center?");
                     return ;
                 }
                 synchronized (frame) {
