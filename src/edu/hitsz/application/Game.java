@@ -1,15 +1,14 @@
 package edu.hitsz.application;
 
-import edu.hitsz.aircraft.AbstractAircraft;
-import edu.hitsz.aircraft.Boss;
-import edu.hitsz.aircraft.Elite;
-import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.aircraft.*;
 
 import static edu.hitsz.application.Main.frame;
 import static edu.hitsz.application.Main.userDao;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.bus.MeEvent;
+import edu.hitsz.bus.Publisher;
 import edu.hitsz.creator.*;
 import edu.hitsz.prop.AbstractProp;
 import edu.hitsz.prop.BloodProp;
@@ -65,6 +64,7 @@ public class Game extends JPanel {
 
     private final int enemyMaxNumber = 5;
     private final int bossScoreThreshold=100;
+    Publisher publisher=new Publisher();
 
     private boolean gameOverFlag = false;
     public int score = 0;
@@ -118,20 +118,25 @@ public class Game extends JPanel {
             if (timeCountAndNewCycleJudge()) {
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    boolean add = enemyAircrafts.add(mobEnemyFactory.create(
+                    MobEnemy mobEnemy= (MobEnemy) mobEnemyFactory.create(
                             (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
                             (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,
                             0,
                             10
-                    ));
+                    );
+                    publisher.subscribe(mobEnemy);
+                    enemyAircrafts.add(mobEnemy);
                 }
                 if (Math.random() < 0.6) {//精英敌机
-                    enemyAircrafts.add(eliteFactory.create(
+                    Elite elite=(Elite)
+                    eliteFactory.create(
                             (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
                             (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2) * 1,
                             (int) ((Math.random()-0.5)*10),
                             15
-                    ));
+                    );
+                    publisher.subscribe(elite);
+                    enemyAircrafts.add(elite);
 
                 }
                 // 飞机射出子弹
@@ -339,6 +344,7 @@ public class Game extends JPanel {
                 if(prs instanceof BloodProp){
                     heroAircraft.decreaseHp(-40);
                 }else if(prs instanceof BombProp){
+                    publisher.publish(MeEvent.bombEvent);
                     System.out.print("Bomb supply activated!\n");
                 }else if(prs instanceof BulletProp){
                     heroAircraft.fireSupply();
@@ -362,6 +368,11 @@ public class Game extends JPanel {
         if(boss!=null){
             if(boss.notValid()){
                 boss.stopMusic();
+            }
+        }
+        for(AbstractAircraft enemy: enemyAircrafts){
+            if(enemy.notValid()){
+                publisher.unsubscribe(enemy);
             }
         }
         enemyBullets.removeIf(AbstractFlyingObject::notValid);

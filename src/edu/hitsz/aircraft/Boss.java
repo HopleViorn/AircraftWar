@@ -4,6 +4,7 @@ import edu.hitsz.application.Main;
 import edu.hitsz.application.MusicThread;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.bus.MeEvent;
 import edu.hitsz.strategy.FireStrategy;
 import edu.hitsz.strategy.Scattered;
 import edu.hitsz.strategy.Single;
@@ -42,6 +43,11 @@ public class Boss extends AbstractAircraft{
         if (locationY >= Main.WINDOW_HEIGHT ) {
             vanish();
         }
+    }
+
+    @Override
+    public void listen(MeEvent meEvent) {
+        return ;
     }
 
     @Override

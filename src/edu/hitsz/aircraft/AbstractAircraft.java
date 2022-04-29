@@ -2,6 +2,8 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.bus.MeEvent;
+import edu.hitsz.bus.Subscriber;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  *
  * @author hitsz
  */
-public abstract class AbstractAircraft extends AbstractFlyingObject {
+public abstract class AbstractAircraft extends AbstractFlyingObject implements Subscriber {
     /**
      * 生命值
      */
@@ -36,7 +38,16 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         return hp;
     }
 
-
+    @Override
+    public void listen(MeEvent meEvent){
+        switch (meEvent){
+            case bombEvent:
+                this.vanish();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + meEvent);
+        }
+    }
 
     /**
      * 飞机射击方法，可射击对象必须实现

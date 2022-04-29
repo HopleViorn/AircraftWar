@@ -111,10 +111,10 @@ public class MusicThread extends Thread {
         GG=false;
         do {
             reverseMusic();
-            System.out.println("Music Start:"+filename);
+//            System.out.println("Music Start:"+filename);
             InputStream stream = new ByteArrayInputStream(samples);
             play(stream);
-            System.out.println("Music Stop:"+filename);
+//            System.out.println("Music Stop:"+filename);
         }while(!GG&loop);
     }
 
