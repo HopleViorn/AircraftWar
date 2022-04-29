@@ -2,6 +2,8 @@ package edu.hitsz.bullet;
 
 import edu.hitsz.application.Main;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.bus.MeEvent;
+import edu.hitsz.bus.Subscriber;
 
 /**
  * 子弹类。
@@ -9,7 +11,7 @@ import edu.hitsz.basic.AbstractFlyingObject;
  *
  * @author hitsz
  */
-public class BaseBullet extends AbstractFlyingObject {
+public class BaseBullet extends AbstractFlyingObject implements Subscriber {
 
     private int power = 10;
 
@@ -37,7 +39,20 @@ public class BaseBullet extends AbstractFlyingObject {
         }
     }
 
+
     public int getPower() {
         return power;
+    }
+
+    @Override
+    public void listen(MeEvent meEvent) {
+        switch(meEvent){
+            case bombEvent:
+                this.vanish();
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + meEvent);
+        }
     }
 }

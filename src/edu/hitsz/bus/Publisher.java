@@ -10,6 +10,9 @@ public class Publisher {
     public void subscribe(Subscriber subscriber){
         subscriberList.add(subscriber);
     }
+    public List<Subscriber> getSubscribeList(){
+        return subscriberList;
+    }
     public void unsubscribe(Subscriber subscriber){
         subscriberList.remove(subscriber);
     }

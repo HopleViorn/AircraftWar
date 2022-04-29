@@ -2,6 +2,7 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.MusicThread;
 import edu.hitsz.bullet.*;
+import edu.hitsz.bus.MeEvent;
 import edu.hitsz.strategy.FireStrategy;
 import edu.hitsz.strategy.Scattered;
 import edu.hitsz.strategy.Single;
@@ -63,6 +64,10 @@ public class HeroAircraft extends AbstractAircraft {
         // 英雄机由鼠标控制，不通过forward函数移动
     }
 
+    @Override
+    public void listen(MeEvent meEvent){
+        return ;
+    }
     @Override
     /**
      * 通过射击产生子弹

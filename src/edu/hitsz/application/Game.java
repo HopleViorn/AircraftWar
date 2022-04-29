@@ -250,7 +250,9 @@ public class Game extends JPanel {
      private void shootAction() {
         //  敌机射击
         for(AbstractAircraft elite : enemyAircrafts ) {
-            enemyBullets.addAll(elite.shoot());
+            var tmp =elite.shoot();
+            enemyBullets.addAll(tmp);
+            publisher.getSubscribeList().addAll(tmp);
         }
 
         // 英雄射击
@@ -373,6 +375,11 @@ public class Game extends JPanel {
         for(AbstractAircraft enemy: enemyAircrafts){
             if(enemy.notValid()){
                 publisher.unsubscribe(enemy);
+            }
+        }
+        for(BaseBullet enemyBullet:enemyBullets){
+            if(enemyBullet.notValid()){
+                publisher.unsubscribe(enemyBullet);
             }
         }
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
