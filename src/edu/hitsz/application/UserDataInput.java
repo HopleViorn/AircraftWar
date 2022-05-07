@@ -30,7 +30,7 @@ public class UserDataInput {
                     name=textField1.getText();
                     userDao.addUser(new User((int) (Math.random() * 1000000), textField1.getText(), score, date));
                     userDao.getAllUsers().sort((a, b) -> (a.score <= b.score ? (a.score < b.score ? 1 : 0) : -1));
-                    System.out.println("Game Over!");
+                    System.out.println("AbstractGame Over!");
 
                     System.out.println("RankList");
                     System.out.println("******************************************************");

@@ -1,6 +1,6 @@
 package edu.hitsz.aircraft;
 
-import edu.hitsz.application.Game;
+import edu.hitsz.application.AbstractGame;
 import edu.hitsz.application.Main;
 import edu.hitsz.creator.BossFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -38,7 +38,7 @@ class BossTest {
         System.out.print("Boundary Test\n");
 
         while(boss.getLocationY()<=Main.WINDOW_HEIGHT) {
-            boss.forward(Game.getTimeInterval());
+            boss.forward(AbstractGame.getTimeInterval());
         }
         assertTrue(boss.notValid());
     }

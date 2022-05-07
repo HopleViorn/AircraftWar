@@ -9,8 +9,8 @@ import static edu.hitsz.application.Main.*;
 public class StartMenu {
     public JPanel panel1;
     private JButton buttonCasual;
-    private JButton buttonMedium;
     private JButton buttonHard;
+    private JButton buttonMedium;
     private JCheckBox checkboxMusic;
     private JCheckBox checkBoxFun;
     private JCheckBox checkBoxAgreement;
@@ -41,24 +41,6 @@ public class StartMenu {
                 }
             }
         });
-        buttonMedium.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if(!checkBoxAgreement.isSelected()) {
-                    Attention.hwhw("Please agree with the User Agreement");
-                    return ;
-                }
-                if(!installNationalAntiFraudCheckBox.isSelected()){
-                    Attention.hwhw("Have you installed the National Anti-Frau Center?");
-                    return ;
-                }
-                synchronized (frame) {
-                    Settings.difficulty= Settings.Difficulty.Medium;
-                    frame.setVisible(false);
-                    frame.notify();
-                }
-            }
-        });
         buttonHard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -77,6 +59,24 @@ public class StartMenu {
                 }
             }
         });
+        buttonMedium.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if(!checkBoxAgreement.isSelected()) {
+                    Attention.hwhw("Please agree with the User Agreement");
+                    return ;
+                }
+                if(!installNationalAntiFraudCheckBox.isSelected()){
+                    Attention.hwhw("Have you installed the National Anti-Frau Center?");
+                    return ;
+                }
+                synchronized (frame) {
+                    Settings.difficulty= Settings.Difficulty.Medium;
+                    frame.setVisible(false);
+                    frame.notify();
+                }
+            }
+        });
         checkboxMusic.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -84,5 +84,4 @@ public class StartMenu {
             }
         });
     }
-
 }

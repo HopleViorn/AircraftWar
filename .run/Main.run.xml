@@ -4,7 +4,7 @@
     <module name="AircraftWar-base" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="edu.hitsz.application.*" />
+        <option name="PATTERN" value="edu.hitsz.application.game.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

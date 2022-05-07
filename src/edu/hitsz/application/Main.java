@@ -1,10 +1,15 @@
 package edu.hitsz.application;
 
+import edu.hitsz.application.game.CasualMode;
+import edu.hitsz.application.game.HardMode;
+import edu.hitsz.application.game.MediumMode;
 import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static edu.hitsz.application.Settings.Difficulty.*;
 
 /**
  * 程序入口
@@ -26,8 +31,6 @@ public class Main {
         // 获得屏幕的分辨率，初始化 Frame
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-        Game game = new Game();
-
         synchronized (frame) {
             frame = new JFrame("StartMenu");
             frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -38,8 +41,25 @@ public class Main {
             frame.setVisible(true);
         }
 
+        /*
+        switch ( Settings.difficulty) {
+            case Casual:
+                game = new CasualMode();break;
+            case Medium:game=new MediumMode();break;
+            case Hard:game=new HardMode();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + Settings.difficulty);
+        }
+*/
+        AbstractGame game;
         synchronized (frame) {
             frame.wait();
+            game=        Settings.difficulty==Casual? new CasualMode():
+                            (Settings.difficulty==Medium?
+                                    new MediumMode():
+                                    new HardMode()
+                                    );
             frame = new JFrame("Aircraft War");
             frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
             frame.setResizable(false);
