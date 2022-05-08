@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Publisher{
+     -subscriberList:List<Subscriber>
+     Publisher();
+     +void subscribe(subscriber:Subscriber )
+     +getSubscribeList():List<Subscriber>
+     +void unsubscribe(subscriber:Subscriber )
+     +void publish(meEvent:MeEvent)
+}
+Publisher o--> Subscriber
+interface Subscriber{
+    +listen(meEvent:MeEvent)
+}
+AbstractAircraft ..|> Subscriber
+class AbstractAircraft{
+    +listen(meEvent:MeEvent)
+}
+
+class AbstractGame{
+}
+AbstractGame-->Publisher
+AbstractGame..>AbstractAircraft
+
+@enduml
