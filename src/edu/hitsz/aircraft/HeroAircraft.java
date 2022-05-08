@@ -48,7 +48,6 @@ public class HeroAircraft extends AbstractAircraft {
             try {
                 fireStrategy.setStrategy(new Scattered(HERO,-1,6,30));
                 for(int i=5;i>=1;--i) {
-                    System.out.println("Fire supply will be end in "+ i +"s.");
                     Thread.sleep(1000);
                 }
                 fireStrategy.setStrategy(new Single(HERO,-1,2,30));

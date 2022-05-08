@@ -39,11 +39,19 @@ public class HardMode extends AbstractGame {
         }
     }
 
+    int magic=0;
+    int enemyMaxNumber=5;
+    double prob=0.5;
     @Override
     protected void enemySpawn() {
-        System.out.println("Hrd");
         //2
-        int enemyMaxNumber=20;
+        if(++magic>=10) {
+            prob=1-(1-prob)*0.9;
+            enemyMaxNumber= (int) (enemyMaxNumber*1.2);
+            System.out.println("Difficulty leveled up!Enemy maximum number:"+enemyMaxNumber+".Elite Probability:"+prob+".");
+            magic=0;
+        }
+
         if (enemyAircrafts.size() < enemyMaxNumber) {
             MobEnemy mobEnemy = (MobEnemy) mobEnemyFactory.create(
                     (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
@@ -55,7 +63,7 @@ public class HardMode extends AbstractGame {
             enemyAircrafts.add(mobEnemy);
         }
         //5
-        if (Math.random() < 0.9) {//精英敌机
+        if (Math.random() < prob) {//精英敌机
             Elite elite = (Elite)
                     eliteFactory.create(
                             (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth())) * 1,
